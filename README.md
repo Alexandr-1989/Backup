@@ -24,15 +24,18 @@
 Приведите ответ в свободной форме.  
   
 Ответ:  
-Резервирование данных с помощью pg_dump:    
-```pg_dump -U username -d dbname -f ./backup.sql```  
+Резервирование данных с помощью pg_dump:   
+  
+pg_dump -U username -d dbname -f ./backup.sql  
+
 -U username - имя пользователя, который имеет соответствующие права на администрирования БД   
 -d dbname - имя БД, которую мы хотим забэкапить   
 -f backup.sql - путь, куда сохранится бэкап.  
   
-Восстановление данных с помощью pg_restore:  
-```pg_restore -U username -d dbname backup.sql```
-
+Восстановление данных с помощью pg_restore: 
+  
+pg_restore -U username -d dbname backup.sql  
+  
 Задание 3. MySQL  
 3.1. С помощью официальной документации приведите пример команды инкрементного резервного копирования базы данных MySQL.  
   
@@ -49,9 +52,6 @@ MySQL официально рекомендует использовать binar
 -Binlog-файлы и являются инкрементными копиями.  
 
  Пример:
-```
-bash
-mysqldump -u root -p --single-transaction --routines --events \
---databases mydb > full_backup.sql
-
-
+bash  
+mysqldump -u root -p --single-transaction --routines --events \  
+--databases mydb > full_backup.sql  
