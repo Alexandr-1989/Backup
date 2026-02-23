@@ -49,6 +49,9 @@ MySQL официально рекомендует использовать binar
 -Binlog-файлы и являются инкрементными копиями.  
 
  Пример:
- ```bash
+```
+bash
 mysqldump -u root -p --single-transaction --routines --events \
---databases mydb > full_backup.sql```
+--databases mydb > full_backup.sql
+
+
