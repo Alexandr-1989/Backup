@@ -50,6 +50,7 @@ pg_restore -U username -d dbname backup.sql
 Пример  
   
  Полный бэкап:  
+   
 bash  
 mysqldump -u root -p --single-transaction --routines --events \  
 --databases mydb > full_backup.sql  
