@@ -26,11 +26,7 @@
 Ответ:  
 Резервирование данных с помощью pg_dump:   
   
-pg_dump -U username -d dbname -f ./backup.sql  
-
--U username - имя пользователя, который имеет соответствующие права на администрирования БД   
--d dbname - имя БД, которую мы хотим забэкапить   
--f backup.sql - путь, куда сохранится бэкап.  
+pg_dump -U username -d dbname -f ./backup.sql   
   
 Восстановление данных с помощью pg_restore: 
   
@@ -44,14 +40,41 @@ pg_restore -U username -d dbname backup.sql
 Приведите ответ в свободной форме.  
 
 Ответ:  
-
-MySQL официально рекомендует использовать binary log как основу для инкрементного резервного копирования и восстановления к нужному моменту времени (Point-In-Time Recovery).  
-
+3.1
+Способ 1. MySQL официально рекомендует использовать binary log как основу для инкрементного резервного копирования и восстановления к нужному моменту времени (Point-In-Time Recovery).  
+Этот способ:  
 -Периодически выполняется полный бэкап базы данных.  
 -Все изменения после него фиксируются в binlog.  
 -Binlog-файлы и являются инкрементными копиями.  
 
- Пример:
+Пример  
+  
+ Полный бэкап:  
 bash  
 mysqldump -u root -p --single-transaction --routines --events \  
 --databases mydb > full_backup.sql  
+  
+Инкрементный бэкап (сохранение binlog):  
+  
+mysqladmin -u root -p flush-logs  
+  
+После выполнения команды текущий binlog закрывается, и начинается новый. Закрытый binlog-файл копируется в хранилище резервных копий:  
+ /var/lib/mysql/mysql-bin.00000X /backup/binlogs/  
+   
+Востановление  
+Восстанавливается полный дамп:  
+  
+mysql -u root -p mydb < full_backup.sql  
+
+Применяются binlog-файлы до нужного момента:  
+
+mysqlbinlog mysql-bin.00000X | mysql -u root -p mydb  
+
+Способ 2 Инкрементное резервное копирование с помощью MySQL Enterprise Backup
+
+В коммерческой версии MySQL доступна утилита MySQL Enterprise Backup.Она, копирует только изменённые блоки данных, работает быстрее и эффективнее по диску.
+Пример:  
+  
+mysqlbackup --user=root --password=secret \  
+--incremental --incremental-base=history:last_backup \  
+backup-dir=/backup/inc_01  
