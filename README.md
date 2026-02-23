@@ -73,7 +73,7 @@ mysqlbinlog mysql-bin.00000X | mysql -u root -p mydb
 
 Способ 2 Инкрементное резервное копирование с помощью MySQL Enterprise Backup
 
-В коммерческой версии MySQL доступна утилита MySQL Enterprise Backup.Она, копирует только изменённые блоки данных, работает быстрее и эффективнее по диску.
+В коммерческой версии MySQL доступна утилита MySQL Enterprise Backup.Она, копирует только изменённые блоки данных, работает быстрее и эффективнее по диску.  
 Пример:  
   
 mysqlbackup --user=root --password=secret \  
